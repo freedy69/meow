@@ -13,7 +13,10 @@ var InRange = false;
 CheckPos();
 
 on("playerSpawned", () => {
-    emitNet("Properties->RequestList");
+    if (!PropertiesReceived)
+    {
+        emitNet("Properties->RequestList");
+    }
 });
 
 on("onResourceStart", (res) => {
