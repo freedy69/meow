@@ -101,15 +101,15 @@ function AnnounceNearbyProperty(name, entering)
 {
     if (name && entering)
     {
-        BeginTextCommandDisplayHelp("STRING");
+        BeginTextCommandThefeedPost("STRING")
         AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${name}.`);
-        EndTextCommandDisplayHelp(0, false, true, 5000);
+        EndTextCommandThefeedPostTicker(true, true)
     }
     else if (name && !entering)
     {
-        BeginTextCommandDisplayHelp("STRING");
+        BeginTextCommandThefeedPost("STRING")
         AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You left the area of ${name}.`);
-        EndTextCommandDisplayHelp(0, false, true, 5000);
+        EndTextCommandThefeedPostTicker(true, true)
     }
 }
 
