@@ -10,6 +10,7 @@ var NotNearbyWaitTime = 1000;
 var NearbyWaitTime = 0;
 var InRange = false;
 var _called = false;
+var _called_dup = false;
 
 CheckPos();
 
@@ -77,7 +78,7 @@ async function CheckPos()
                     DrawingMarkers = false;
                     ClosestProperty = null;
                     
-                    if (!_called)
+                    if (!_called_dup)
                     {
                         PlayerExitedRange();
                     }
@@ -129,7 +130,7 @@ function PlayerEnteredRange()
 
 function PlayerExitedRange()
 {
-    _called = true;
+    _called_dup = true;
     log("exited range");
 }
 
