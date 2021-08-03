@@ -12,6 +12,8 @@ var NearbyWaitTime = 0;
 var InRange = false;
 var CurrentCount = 0;
 var MaxCount = 1;
+var CurrentScaleformHandle = null;
+var DrawScaleform = false;
 
 CheckPos();
 
@@ -63,11 +65,27 @@ async function CheckPos()
                     CurrentCount++;
                 }
 
-                DrawMarker(0, ClosestProperty.extCoords[0], ClosestProperty.extCoords[1], ClosestProperty.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
+                //DrawMarker(0, ClosestProperty.extCoords[0], ClosestProperty.extCoords[1], ClosestProperty.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
 
                 if (ClosestProperty.garage.hasGarage)
                 {
                     DrawMarker(0, ClosestProperty.garage.extCoords[0], ClosestProperty.garage.extCoords[1], ClosestProperty.garage.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
+                }
+
+                if (DrawScaleform)
+                {
+                    CurrentScaleformHandle = RequestScaleformMovie("MP_BIG_MESSAGE_FREEMODE");
+                    while (!HasScaleformMovieLoaded(CurrentScaleformHandle))
+                    {
+                        await WAIT(0);
+                    }
+
+                    BeginScaleformMovieMethod(CurrentScaleformHandle, "SHOW_SHARD_WASTED_MP_MESSAGE");
+                    ScaleformMovieMethodAddParamPlayerNameString("hi");
+                    EndScaleformMovieMethod();
+                    //DrawScaleformMovie_3d(CurrentScaleformHandle, ClosestProperty.extCoords[0], ClosestProperty.extCoords[1], ClosestProperty.extCoords[2], 1.0, 1.0, 1.0, 1, 1, 1, 1.0, 1.0, 1.0, 1);
+                    //DrawScaleformMovieFullscreen(CurrentScaleformHandle, 255, 255, 255, 255);
+                    DrawScaleformMovie_3dSolid(CurrentScaleformHandle, ClosestProperty.extCoords[0] + 0.5, ClosestProperty.extCoords[1], ClosestProperty.extCoords[2], 1.0, 1.0, 1.0, 1, 1, 1, 1.0, 1.0, 1.0, 1);
                 }
             }
             else
@@ -90,26 +108,28 @@ async function CheckPos()
 async function PlayerEnteredPropertyRange(property)
 {
     AnnounceNearbyProperty(property.name, true);
+    DrawScaleform = true;
 }
 
 function PlayerLeftPropertyRange(property)
 {
     AnnounceNearbyProperty(property.name, false)
+    DrawScaleform = false;
 }
 
 function AnnounceNearbyProperty(name, entering)
 {
     if (name && entering)
     {
-        BeginTextCommandThefeedPost("STRING")
+        BeginTextCommandDisplayHelp("STRING");
         AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${name}.`);
-        EndTextCommandThefeedPostTicker(true, true)
+        EndTextCommandDisplayHelp(0, false, true, 5000);
     }
     else if (name && !entering)
     {
-        BeginTextCommandThefeedPost("STRING")
+        BeginTextCommandDisplayHelp("STRING");
         AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You left the area of ${name}.`);
-        EndTextCommandThefeedPostTicker(true, true)
+        EndTextCommandDisplayHelp(0, false, true, 5000);
     }
 }
 
