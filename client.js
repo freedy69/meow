@@ -129,7 +129,7 @@ function PlayerEnteredRange(property)
     log("entered range");
     
     BeginTextCommandDisplayHelp("STRING");
-    AddTextComponentSubstringPlayerName(property.name);
+    AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}`);
     EndTextCommandDisplayHelp(0, false, true, 5000);
 }
 
