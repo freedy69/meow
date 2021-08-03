@@ -82,7 +82,7 @@ async function DrawPropertyMarkers(property)
 {
     while (true)
     {
-        if (PropertiesReceived && DrawingMarkers && property != null)
+        if (PropertiesReceived)
         {    
             console.log("should draw marker at ", property.extCoords);
             //DrawMarker(25, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 255, 255, 255, false, false, 2, false, NULL, NULL, false);
