@@ -77,7 +77,7 @@ async function CheckPos()
                     InRange = false;
                     DrawingMarkers = false;
                     ClosestProperty = null;
-                    Enter_Called = true;
+                    Enter_Called = false;
                     
                     if (!Exit_Called)
                     {
