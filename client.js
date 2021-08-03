@@ -8,7 +8,7 @@ var ClosestProperty = null;
 var NearbyDistance = 50;
 var NotNearbyWaitTime = 1000;
 var NearbyWaitTime = 0;
-var _called = false;
+var InRange = false;
 
 CheckPos();
 
@@ -52,14 +52,11 @@ async function CheckPos()
 
                 if (d < NearbyDistance)
                 {
-                    if (!_called)
-                    {
-                        empty();
-                    }
-
+                    InRange = true;
                     DrawingMarkers = true;
                     ClosestProperty = property;
                     DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
+                    empty();
 
                     if (property.garage.hasGarage)
                     {
@@ -68,6 +65,7 @@ async function CheckPos()
                 }
                 else
                 {
+                    InRange = false;
                     DrawingMarkers = false;
                     ClosestProperty = null;
                 }
@@ -112,8 +110,6 @@ function GetDistance(x1, y1, z1, x2, y2, z2)
 
 function empty()
 {
-    _called = true;
-    console.trace();
     log('entered range');
 }
 
