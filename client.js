@@ -6,6 +6,8 @@ var PropertiesReceived = false;
 var DrawingMarkers = false;
 var ClosestProperty = null;
 var NearbyDistance = 50;
+var NotNearbyWaitTime = 1000;
+var NearbyWaitTime = 0;
 
 CheckPos();
 
@@ -82,7 +84,7 @@ async function CheckPos()
             }
         }
 
-        await WAIT(0);
+        await WAIT(ClosestProperty ? NearbyWaitTime : NotNearbyWaitTime);
     }
 }
 
