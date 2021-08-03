@@ -114,4 +114,10 @@ function empty()
 {
     _called = true;
     console.trace();
+    log('entered range');
+}
+
+function log(text)
+{
+    console.log(text);
 }
