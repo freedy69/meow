@@ -23,6 +23,7 @@ onNet("Properties->ReceiveList", (properties) => {
 
         var blip = AddBlipForCoord(property.extCoords[0], property.extCoords[1], property.extCoords[2]);
         SetBlipSprite(blip, property.blipId);
+        SetBlipCategory(blip, 10);
         SetBlipAsShortRange(blip, true);
         BeginTextCommandSetBlipName(property.txtEntry);
         EndTextCommandSetBlipName(blip);
