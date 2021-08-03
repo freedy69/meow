@@ -5,14 +5,18 @@ var Properties =
     {
         extCoords: [-774.02, 310.89, 85.7],
         name: "Eclipse Tower Apartments",
-        hasGarage: true,
+        garage: 
+        {
+            hasGarage: true,
+            extCoords: [-796.206, 311.314, 85.692],
+            blipId: 357,
+            name: "Garage: Eclipse Tower",
+            txtEntry: "G_ECL_TRW",
+            intCoords: [240.962, -1004.716, -99.014]
+        },
         txtEntry: "ECL_TWR",
         blipId: 40,
-        garageCoords: [-796.206, 311.314, 85.692],
-        garageBlipId: 357,
-        garageName: "Garage: Eclipse Tower",
-        garageTxtEntry: "G_ECL_TRW",
-        Apartments: 
+        apartments: 
         [
             {
                 type: "Luxury",
@@ -24,10 +28,10 @@ var Properties =
     }
 ];
 
-console.log(Properties);
-
 onNet("Properties->RequestList", () => {
     var _source = source;
-    console.log(_source, " requested properties");
+    var _name = GetPlayerName(_source);
+
+    console.log(`[${_source}] ${_name} requested properties, sending...`);
     emitNet("Properties->ReceiveList", _source, Properties);
 });
