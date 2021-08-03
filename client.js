@@ -50,6 +50,8 @@ async function CheckPos()
 {
     while (true)
     {
+        console.log("test check pos");
+        
         if (PropertiesReceived)
         {
             var localPos = GetEntityCoords(PlayerPedId());
