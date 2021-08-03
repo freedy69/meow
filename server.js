@@ -5,7 +5,16 @@ var Properties =
     EclipseTwr:
     {
         extCoords: [-774.02, 310.89, 85.7],
-        name: "Eclipse Tower Apartments"
+        name: "Eclipse Tower Apartments",
+        Apartments: 
+        [
+            {
+                type: "Luxury",
+                name: "Apartment 1",
+                price: 1000000,
+                intCoords: [-774.553, 331.621, 160]
+            }
+        ]
     }
 };
 
