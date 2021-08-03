@@ -128,12 +128,9 @@ function PlayerEnteredRange(property)
     Enter_Called = true;
     log("entered range");
     
-    SetScriptGfxAlign(0, 84);
-    SetScriptGfxAlignParams(0.0, 0.0, 0.0, 0.0);
     BeginTextCommandDisplayHelp("STRING");
-    AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}`);
+    AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}.`);
     EndTextCommandDisplayHelp(0, false, true, 5000);
-    ResetScriptGfxAlign();
 }
 
 function PlayerExitedRange()
