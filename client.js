@@ -126,7 +126,7 @@ function GetDistance(x1, y1, z1, x2, y2, z2)
 function PlayerEnteredRange(property)
 {
     Enter_Called = true;
-    log("entered range of ", property.name);
+    log(`entered range of ${property.name}`);
     
     BeginTextCommandDisplayHelp("STRING");
     AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}.`);
@@ -136,7 +136,7 @@ function PlayerEnteredRange(property)
 function PlayerExitedRange(property)
 {
     Exit_Called = true;
-    log("exited range of ", property.name);
+    log(`exited range of ${property.name}`);
 }
 
 function log(text)
