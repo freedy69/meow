@@ -1,6 +1,6 @@
 console.log("hi");
 
-console.log("hi");
+var PropertiesReceived = false;
 
 on("playerSpawned", () => {
     emitNet("Properties->RequestList");
@@ -14,5 +14,6 @@ on("onResourceStart", (res) => {
 });
 
 onNet("Properties->ReceiveList", (properties) => {
+    PropertiesReceived = false;
     console.log(properties);
 });
