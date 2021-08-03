@@ -26,6 +26,6 @@ onNet("Properties->ReceiveList", (properties) => {
         BeginTextCommandSetBlipName(property.txtEntry);
         EndTextCommandSetBlipName(blip);
 
-        console.log(`creating blip for ${property}`);
+        console.log(`creating blip for ${property.name}`);
     }
 });
