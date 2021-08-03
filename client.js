@@ -64,6 +64,7 @@ async function CheckPos()
                 {
                     DrawingMarkers = true;
                     ClosestProperty = property;
+                    console.log(DrawingMarkers, ClosesProperty);
                 }
                 else
                 {
