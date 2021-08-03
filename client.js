@@ -81,7 +81,7 @@ async function CheckPos()
                     
                     if (!Exit_Called)
                     {
-                        PlayerExitedRange();
+                        PlayerExitedRange(property);
                     }
                 }
             }
@@ -126,17 +126,17 @@ function GetDistance(x1, y1, z1, x2, y2, z2)
 function PlayerEnteredRange(property)
 {
     Enter_Called = true;
-    log("entered range");
+    log("entered range of ", property.name);
     
     BeginTextCommandDisplayHelp("STRING");
     AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}.`);
     EndTextCommandDisplayHelp(0, false, true, 5000);
 }
 
-function PlayerExitedRange()
+function PlayerExitedRange(property)
 {
     Exit_Called = true;
-    log("exited range");
+    log("exited range of ", property.name);
 }
 
 function log(text)
