@@ -10,7 +10,6 @@ var NotNearbyWaitTime = 1000;
 var NearbyWaitTime = 0;
 var InRange = false;
 var _called = false;
-var _called_dup = false;
 
 CheckPos();
 
@@ -63,7 +62,7 @@ async function CheckPos()
                     DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
                     if (!_called)
                     { 
-                        PlayerEnteredRange();
+                        RangePlayerChange();
                     }
 
                     if (property.garage.hasGarage)
@@ -76,12 +75,7 @@ async function CheckPos()
                     _called = false;
                     InRange = false;
                     DrawingMarkers = false;
-                    ClosestProperty = null;
-                    
-                    if (!_called_dup)
-                    {
-                        PlayerExitedRange();
-                    }
+                    ClosestProperty = null;                
                 }
             }
         }
@@ -122,16 +116,17 @@ function GetDistance(x1, y1, z1, x2, y2, z2)
     return distance;
 }
 
-function PlayerEnteredRange()
+function RangePlayerChange()
 {
     _called = true;
-    log('entered range');
-}
-
-function PlayerExitedRange()
-{
-    _called_dup = true;
-    log("exited range");
+    if (!InRange)
+    {
+        log("exited range");
+    }
+    else
+    {
+        log('entered range');
+    }
 }
 
 function log(text)
