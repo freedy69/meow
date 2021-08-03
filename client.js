@@ -7,7 +7,6 @@ var DrawingMarkers = false;
 var ClosestProperty = null;
 
 CheckPos();
-DrawPropertyMarkers(ClosestProperty);
 
 on("playerSpawned", () => {
     emitNet("Properties->RequestList");
@@ -64,7 +63,7 @@ async function CheckPos()
                 {
                     DrawingMarkers = true;
                     ClosestProperty = property;
-                    console.log(DrawingMarkers, ClosestProperty.name);
+                    DrawMarker(25, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 255, 255, 255, false, false, 2, false, NULL, NULL, false);
                 }
                 else
                 {
@@ -74,16 +73,7 @@ async function CheckPos()
             }
         }
 
-        await WAIT(1000);
-    }
-}
-
-async function DrawPropertyMarkers(property)
-{
-    while (DrawingMarkers && PropertiesReceived)
-    {
-        console.log("draw marker");
-        await WAIT(1000);
+        await WAIT(0);
     }
 }
 
