@@ -5,7 +5,8 @@ var Properties =
     {
         extCoords: [-774.02, 310.89, 85.7],
         name: "Eclipse Tower Apartments",
-        blipId: 475,
+        txtEntry: "ECL_TWR",
+        blipId: 40,
         Apartments: 
         [
             {
