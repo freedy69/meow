@@ -63,7 +63,7 @@ async function CheckPos()
                 {
                     DrawingMarkers = true;
                     ClosestProperty = property;
-                    DrawMarker(25, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 255, 255, 255, false, false, 2, false, NULL, NULL, false);
+                    DrawMarker(25, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 255, 255, 255, false, false, 2, false, null, null, false);
                 }
                 else
                 {
