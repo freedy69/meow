@@ -74,22 +74,16 @@ async function CheckPos()
             }
         }
 
-        await WAIT(5000);
+        await WAIT(1000);
     }
 }
 
 async function DrawPropertyMarkers(property)
 {
-    while (true)
+    while (DrawingMarkers && PropertiesReceived)
     {
-        if (PropertiesReceived && DrawingMarkers)
-        {    
-            console.log("should draw marker for ", property);
-            //DrawMarker(25, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 255, 255, 255, false, false, 2, false, NULL, NULL, false);
-            DrawMarker(1, property.extCoords[1], property.extCoords[2], property.extCoords[3] - 1.1, 0.0, 0.0, 360, 0.0, 0.0, 0.0, 1.3, 1.3, 1.3 - 0.5, 113, 190, 255, 100, false, true, 2, false, false, false);
-        }
-        
-        await WAIT(0);
+        console.log("draw marker");
+        await WAIT(1000);
     }
 }
 
