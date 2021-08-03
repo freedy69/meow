@@ -127,7 +127,7 @@ function PlayerEnteredRange()
     log("entered range");
 }
 
-function PlayerExitedRange();
+function PlayerExitedRange()
 {
     Exit_Called = true;
     log("exited range");
