@@ -128,7 +128,9 @@ function PlayerEnteredRange(property)
     Enter_Called = true;
     log("entered range");
     
-    DisplayHelpTextThisFrame("a", 0);
+    BeginTextCommandDisplayHelp("STRING");
+    AddTextComponentSubstringPlayerName(property.name);
+    EndTextCommandDisplayHelp(0, false, true, 5000);
 }
 
 function PlayerExitedRange()
