@@ -129,7 +129,7 @@ function PlayerEnteredRange(property)
     log("entered range");
     
     AddTextEntry("ENTERED_" + property.txtEntry, `You are near the property of ${property.name}`);
-    BeginTextCommandDisplayText("ENTERED_" + property.txtEntry);
+    BeginTextCommandDisplayHelp("ENTERED_" + property.txtEntry);
     EndTextCommandDisplayHelp(0, 0, 1, -1);
 }
 
