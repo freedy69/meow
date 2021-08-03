@@ -5,12 +5,13 @@ var Properties = null;
 var PropertiesReceived = false;
 var DrawingMarkers = false;
 var ClosestProperty = null;
+var LastClosestProperty = null;
 var NearbyDistance = 50;
-var NotNearbyWaitTime = 1000;
+var NotNearbyWaitTime = 2000;
 var NearbyWaitTime = 0;
 var InRange = false;
-var Enter_Called = false;
-var Exit_Called = false;
+var CurrentCount = 0;
+var MaxCount = 1;
 
 CheckPos();
 
@@ -39,7 +40,7 @@ onNet("Properties->ReceiveList", (properties) => {
         for (property of properties)
         {
             CreatePropertyBlips(property);
-            console.log("Creating blips for property ", property.name);
+            console.log("Creating blips for property ", property.name, property.id);
         }
     }
 });
@@ -50,45 +51,65 @@ async function CheckPos()
     {        
         if (PropertiesReceived)
         {
-            var localPos = GetEntityCoords(PlayerPedId());
-            for (property of Properties)
+            ClosestProperty = GetClosestProperty();
+
+            if (ClosestProperty)
             {
-                var d = GetDistance(localPos[0], localPos[1], localPos[2], property.extCoords[0], property.extCoords[1], property.extCoords[2]);
-
-                if (d < NearbyDistance)
+                LastClosestProperty = ClosestProperty;
+                InRange = true;
+                if (CurrentCount < MaxCount)
                 {
-                    InRange = true;
-                    DrawingMarkers = true;
-                    ClosestProperty = property;
-                    Exit_Called = false;
-                    DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
-                    if (!Enter_Called)
-                    { 
-                        PlayerEnteredRange(ClosestProperty);
-                    }
-
-                    if (property.garage.hasGarage)
-                    {
-                        DrawMarker(0, property.garage.extCoords[0], property.garage.extCoords[1], property.garage.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
-                    }
+                    PlayerEnteredPropertyRange(ClosestProperty);
+                    CurrentCount++;
                 }
-                else
+
+                DrawMarker(0, ClosestProperty.extCoords[0], ClosestProperty.extCoords[1], ClosestProperty.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
+
+                if (ClosestProperty.garage.hasGarage)
                 {
-                    InRange = false;
-                    DrawingMarkers = false;
-                    Enter_Called = false;
-                    
-                    if (!Exit_Called && property.id != ClosestProperty.id)
-                    {
-                        PlayerExitedRange(ClosestProperty);
-                    }
-                    
-                    ClosestProperty = null;
+                    DrawMarker(0, ClosestProperty.garage.extCoords[0], ClosestProperty.garage.extCoords[1], ClosestProperty.garage.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
+                }
+            }
+            else
+            {
+                InRange = false;
+
+                if (CurrentCount == MaxCount)
+                {
+                    PlayerLeftPropertyRange(LastClosestProperty);
+                    CurrentCount = 0;
+                    LastClosestProperty = null;
                 }
             }
         }
 
         await WAIT(ClosestProperty ? NearbyWaitTime : NotNearbyWaitTime);
+    }
+}
+
+async function PlayerEnteredPropertyRange(property)
+{
+    AnnounceNearbyProperty(property.name, true);
+}
+
+function PlayerLeftPropertyRange(property)
+{
+    AnnounceNearbyProperty(property.name, false)
+}
+
+function AnnounceNearbyProperty(name, entering)
+{
+    if (name && entering)
+    {
+        BeginTextCommandDisplayHelp("STRING");
+        AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${name}.`);
+        EndTextCommandDisplayHelp(0, false, true, 5000);
+    }
+    else if (name && !entering)
+    {
+        BeginTextCommandDisplayHelp("STRING");
+        AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You left the area of ${name}.`);
+        EndTextCommandDisplayHelp(0, false, true, 5000);
     }
 }
 
@@ -108,8 +129,22 @@ function CreatePropertyBlips(property)
         var garageBlip = AddBlipForCoord(property.garage.extCoords[0], property.garage.extCoords[1], property.garage.extCoords[2]);
         SetBlipSprite(garageBlip, property.garage.blipId);
         SetBlipAsShortRange(garageBlip, true);
+        SetBlipCategory(garageBlip, 10);
         BeginTextCommandSetBlipName(property.garage.txtEntry);
         EndTextCommandSetBlipName(garageBlip);
+    }
+}
+
+function GetClosestProperty()
+{
+    var localPos = GetEntityCoords(PlayerPedId());
+    for (var i = 0; i < Properties.length; i++)
+    {
+        var distance = GetDistance(localPos[0], localPos[1], localPos[2], Properties[i].extCoords[0], Properties[i].extCoords[1], Properties[i].extCoords[2]);
+        if (distance < NearbyDistance)
+        {
+            return Properties[i];
+        }
     }
 }
 
@@ -122,30 +157,6 @@ function GetDistance(x1, y1, z1, x2, y2, z2)
     var distance = Math.sqrt((a * a) + (b * b) + (c * c));
 
     return distance;
-}
-
-function PlayerEnteredRange(property)
-{
-    Enter_Called = true;
-    
-    if (property)
-    {
-        log(`entered range of ${property.name}`);
-    
-        BeginTextCommandDisplayHelp("STRING");
-        AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}.`);
-        EndTextCommandDisplayHelp(0, false, true, 5000);
-    }
-}
-
-function PlayerExitedRange(property)
-{
-    Exit_Called = true;
-    
-    if (property)
-    {
-        log(`exited range of ${property.name}`);
-    }
 }
 
 function log(text)
