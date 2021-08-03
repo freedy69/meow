@@ -57,9 +57,11 @@ async function CheckPos()
             var localPos = GetEntityCoords(PlayerPedId());
             for (property of Properties)
             {
+                console.log(`checking distance for ${property.name}`);
+
                 var d = GetDistance(localPos[0], localPos[1], localPos[2], property.extCoords[0], property.extCoords[1], property.extCoords[2]);
 
-                if (d < 20)
+                if (d < 50)
                 {
                     console.log(`player is closest to ${property.name} at ${property.extCoords}`);
                 }
