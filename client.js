@@ -38,13 +38,16 @@ onNet("Properties->ReceiveList", (properties) => {
 
         console.log(`creating blip for ${property.name}`);
 
-        var garageBlip = AddBlipForCoord(property.garageCoords[0], property.garageCoords[1], property.garageCoords[2]);
-        SetBlipSprite(garageBlip, property.garageBlipId);
-        SetBlipAsShortRange(garageBlip, true);
-        BeginTextCommandSetBlipName(property.garageTxtEntry);
-        EndTextCommandSetBlipName(garageBlip);
-
-        console.log(`creating blip for ${property.garageName}`);
+        if (property.hasGarage)
+        {
+            var garageBlip = AddBlipForCoord(property.garageCoords[0], property.garageCoords[1], property.garageCoords[2]);
+            SetBlipSprite(garageBlip, property.garageBlipId);
+            SetBlipAsShortRange(garageBlip, true);
+            BeginTextCommandSetBlipName(property.garageTxtEntry);
+            EndTextCommandSetBlipName(garageBlip);
+    
+            console.log(`creating blip for ${property.garageName}`);
+        }
     }
 });
 
@@ -64,6 +67,11 @@ async function CheckPos()
                     DrawingMarkers = true;
                     ClosestProperty = property;
                     DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
+
+                    if (property.hasGarage)
+                    {
+                        DrawMarker(0, property.garageCoords[0], property.garageCoords[1], property.garageCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
+                    }
                 }
                 else
                 {
