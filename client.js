@@ -75,7 +75,12 @@ async function CheckPos()
                     _called = false;
                     InRange = false;
                     DrawingMarkers = false;
-                    ClosestProperty = null;                
+                    ClosestProperty = null;
+                    
+                    if (!_called)
+                    {
+                        RangePlayerChange();
+                    }
                 }
             }
         }
