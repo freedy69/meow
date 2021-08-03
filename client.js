@@ -78,7 +78,7 @@ async function CheckPos()
                     DrawingMarkers = false;
                     Enter_Called = false;
                     
-                    if (!Exit_Called && property != ClosestProperty)
+                    if (!Exit_Called && property.id != ClosestProperty.id)
                     {
                         PlayerExitedRange(ClosestProperty);
                     }
