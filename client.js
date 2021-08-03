@@ -128,7 +128,7 @@ function PlayerEnteredRange(property)
     Enter_Called = true;
     log("entered range");
     
-    SetScriptGfxAlign(82, 84);
+    SetScriptGfxAlign(0, 84);
     BeginTextCommandDisplayHelp("STRING");
     AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}`);
     EndTextCommandDisplayHelp(0, false, true, 5000);
