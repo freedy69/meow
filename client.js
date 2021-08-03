@@ -72,7 +72,6 @@ async function CheckPos()
                 }
                 else
                 {
-                    _called = false;
                     InRange = false;
                     DrawingMarkers = false;
                     ClosestProperty = null;
