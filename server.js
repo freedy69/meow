@@ -6,6 +6,7 @@ var Properties =
     {
         extCoords: [-774.02, 310.89, 85.7],
         name: "Eclipse Tower Apartments",
+        blipId: 475,
         Apartments: 
         [
             {
@@ -19,3 +20,9 @@ var Properties =
 };
 
 console.log(Properties);
+
+onNet("Properties->RequestList", () => {
+    var _source = source;
+    console.log(_source, " requested properties");
+    emitNet("Properties->ReceiveList", _source, Properties);
+});
