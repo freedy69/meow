@@ -1,27 +1,26 @@
 console.log("hi");
 
-var Properties =
-{
-    EclipseTwr:
+var PropertiesReceived = false;
+
+on("playerSpawned", () => {
+    emitNet("Properties->RequestList");
+});
+
+on("onResourceStart", (res) => {
+    if (res == GetCurrentResourceName())
     {
-        extCoords: [-774.02, 310.89, 85.7],
-        name: "Eclipse Tower Apartments",
-        Apartments: 
-        [
-            {
-                type: "Luxury",
-                name: "Apartment 1",
-                price: 1000000,
-                intCoords: [-774.553, 331.621, 160]
-            }
-        ]
+        emitNet("Properties->RequestList");
     }
-};
+});
 
-console.log(Properties);
+onNet("Properties->ReceiveList", (properties) => {
+    PropertiesReceived = false;
+    console.log(properties);
 
-onNet("Properties->RequestList", () => {
-    var _source = source;
-    console.log(_source, " requested properties");
-    emitNet("Properties->ReceiveList", _source, Properties);
+    for (property of properties)
+    {
+        var blip = AddBlipForCoord(property.extCoords[0], property.extCoords[1], property.extCoords[2]);
+        SetBlipSprite(blip, property.blipId);
+        console.log(`creating blip for ${property}`);
+    }
 });
