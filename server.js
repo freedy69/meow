@@ -11,7 +11,7 @@ var Properties =
             hasGarage: true,
             extCoords: [-796.206, 311.314, 85.692],
             blipId: 357,
-            name: "Garage: Eclipse Tower",
+            name: "Eclipse Tower - Garage",
             txtEntry: "G_ECL_TRW",
             intCoords: [240.962, -1004.716, -99.014]
         },
@@ -36,7 +36,7 @@ var Properties =
             hasGarage: true,
             extCoords: [-338.94, 630.68, 172.35],
             blipId: 357,
-            name: "Garage: Kimble Hill Residence",
+            name: "Kimble Hill Residence - Garage",
             txtEntry: "G_KMB_RES",
             intCoords: [211.66, -999.18, -99]
         },
@@ -48,6 +48,31 @@ var Properties =
                 type: "Luxury",
                 name: "1378 Kimble Hill",
                 price: 2500000,
+                intCoords: [0, 0, 0]
+            }
+        ]
+    },
+    {
+        id: 3,
+        extCoords: [903.43, -615.8, 58.45],
+        name: "West Mirror Estate",
+        garage:
+        {
+            hasGarage: true,
+            extCoords: [912.94, -630.5, 58.05],
+            blipId: 357,
+            name: "West Mirror Estate - Garage",
+            txtEntry: "G_WSM_EST",
+            intCoords: [211.66, -999.18, -99]
+        },
+        txtEntry: "WSM_EST",
+        blipId: 40,
+        apartments:
+        [
+            {
+                type: "Modest",
+                name: "3102 West Mirror Drive",
+                price: 650000,
                 intCoords: [0, 0, 0]
             }
         ]
