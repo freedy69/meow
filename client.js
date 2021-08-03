@@ -82,6 +82,8 @@ async function DrawPropertyMarkers(property)
 {
     while (true)
     {
+        console.trace("scwhat");
+        
         if (DrawingMarkers && property != null)
         {    
             console.log("should draw marker at ", property.extCoords);
