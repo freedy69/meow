@@ -64,7 +64,7 @@ async function CheckPos()
                     DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
                     if (!Enter_Called)
                     { 
-                        PlayerEnteredRange(property);
+                        PlayerEnteredRange(ClosestProperty);
                     }
 
                     if (property.garage.hasGarage)
@@ -127,17 +127,25 @@ function GetDistance(x1, y1, z1, x2, y2, z2)
 function PlayerEnteredRange(property)
 {
     Enter_Called = true;
-    log(`entered range of ${property.name}`);
     
-    BeginTextCommandDisplayHelp("STRING");
-    AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}.`);
-    EndTextCommandDisplayHelp(0, false, true, 5000);
+    if (property)
+    {
+        log(`entered range of ${property.name}`);
+    
+        BeginTextCommandDisplayHelp("STRING");
+        AddTextComponentSubstringPlayerName(`~BLIP_SAFEHOUSE~ You are near ${property.name}.`);
+        EndTextCommandDisplayHelp(0, false, true, 5000);
+    }
 }
 
 function PlayerExitedRange(property)
 {
     Exit_Called = true;
-    log(`exited range of ${property.name}`);
+    
+    if (property)
+    {
+        log(`exited range of ${property.name}`);
+    }
 }
 
 function log(text)
