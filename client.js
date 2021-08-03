@@ -79,13 +79,17 @@ async function CheckPos()
                     {
                         await WAIT(0);
                     }
+                    
+                    var cc = GetGameplayCamCoord()
+
+                    var heading = GetHeadingFromVector_2d(ClosestProperty.extCoords[1] - cc[1], ClosestProperty.extCoords[2] - cc[2])
 
                     BeginScaleformMovieMethod(CurrentScaleformHandle, "SHOW_SHARD_WASTED_MP_MESSAGE");
                     ScaleformMovieMethodAddParamPlayerNameString("hi");
                     EndScaleformMovieMethod();
                     //DrawScaleformMovie_3d(CurrentScaleformHandle, ClosestProperty.extCoords[0], ClosestProperty.extCoords[1], ClosestProperty.extCoords[2], 1.0, 1.0, 1.0, 1, 1, 1, 1.0, 1.0, 1.0, 1);
                     //DrawScaleformMovieFullscreen(CurrentScaleformHandle, 255, 255, 255, 255);
-                    DrawScaleformMovie_3dSolid(CurrentScaleformHandle, ClosestProperty.extCoords[0] + 0.5, ClosestProperty.extCoords[1], ClosestProperty.extCoords[2], 1.0, 1.0, 1.0, 1, 1, 1, 1.0, 1.0, 1.0, 1);
+                    DrawScaleformMovie_3dSolid(CurrentScaleformHandle, ClosestProperty.extCoords[0] + 0.5, ClosestProperty.extCoords[1], ClosestProperty.extCoords[2], 1.0, 1.0, heading, 1, 1, 1, 1.0, 1.0, 1.0, 1);
                 }
             }
             else
