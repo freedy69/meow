@@ -19,7 +19,7 @@ on("onResourceStart", (res) => {
 
 onNet("Properties->ReceiveList", (properties) => {
     Properties = properties;
-    PropertiesReceived = false;
+    PropertiesReceived = true;
     console.log(properties);
 
     for (property of properties)
