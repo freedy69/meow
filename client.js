@@ -1,19 +1,27 @@
 console.log("hi");
 
-var PropertiesReceived = false;
-
-on("playerSpawned", () => {
-    emitNet("Properties->RequestList");
-});
-
-on("onResourceStart", (res) => {
-    if (res == GetCurrentResourceName())
+var Properties =
+{
+    EclipseTwr:
     {
-        emitNet("Properties->RequestList");
+        extCoords: [-774.02, 310.89, 85.7],
+        name: "Eclipse Tower Apartments",
+        Apartments: 
+        [
+            {
+                type: "Luxury",
+                name: "Apartment 1",
+                price: 1000000,
+                intCoords: [-774.553, 331.621, 160]
+            }
+        ]
     }
-});
+};
 
-onNet("Properties->ReceiveList", (properties) => {
-    PropertiesReceived = false;
-    console.log(properties);
+console.log(Properties);
+
+onNet("Properties->RequestList", () => {
+    var _source = source;
+    console.log(_source, " requested properties");
+    emitNet("Properties->ReceiveList", _source, Properties);
 });
