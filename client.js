@@ -62,7 +62,7 @@ async function CheckPos()
                     DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
                     if (!_called)
                     { 
-                        empty();
+                        PlayerEnteredRange();
                     }
 
                     if (property.garage.hasGarage)
@@ -76,6 +76,11 @@ async function CheckPos()
                     InRange = false;
                     DrawingMarkers = false;
                     ClosestProperty = null;
+                    
+                    if (!_called)
+                    {
+                        PlayerExitedRange();
+                    }
                 }
             }
         }
@@ -116,10 +121,16 @@ function GetDistance(x1, y1, z1, x2, y2, z2)
     return distance;
 }
 
-function empty()
+function PlayerEnteredRange()
 {
     _called = true;
     log('entered range');
+}
+
+function PlayerExitedRange()
+{
+    _called = true;
+    log("exited range");
 }
 
 function log(text)
