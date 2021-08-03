@@ -28,6 +28,8 @@ onNet("Properties->ReceiveList", (properties) => {
         Properties = properties;
         PropertiesReceived = true;
     
+        console.log(`Received ${Properties.length} properties.`);
+
         for (property of properties)
         {
             CreatePropertyBlips(property);
