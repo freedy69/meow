@@ -25,6 +25,30 @@ var Properties =
                 intCoords: [-774.553, 331.621, 160]
             }
         ]
+    },
+    {
+        extCoords: [-340.36, 626.12, 171.36],
+        name: "Kimble Hill Residence",
+        garage:
+        {
+            hasGarage: true,
+            extCoords: [-338.94, 630.68, 172.35],
+            blipId: 357,
+            name: "Garage: Kimble Hill Residence",
+            txtEntry: "G_KMB_RES",
+            intCoords: [211.66, -999.18, -99]
+        },
+        txtEntry: "KMB_RES",
+        blipId: 40,
+        apartments:
+        [
+            {
+                type: "Luxury",
+                name: "1378 Kimble Hill",
+                price: 2500000,
+                intCoords: [0, 0, 0]
+            }
+        ]
     }
 ];
 
