@@ -60,6 +60,7 @@ async function CheckPos()
                     InRange = true;
                     DrawingMarkers = true;
                     ClosestProperty = property;
+                    Exit_Called = false;
                     DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
                     if (!Enter_Called)
                     { 
@@ -76,6 +77,7 @@ async function CheckPos()
                     InRange = false;
                     DrawingMarkers = false;
                     ClosestProperty = null;
+                    Enter_Called = true;
                     
                     if (!Exit_Called)
                     {
