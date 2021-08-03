@@ -59,11 +59,11 @@ async function CheckPos()
             {
                 var d = GetDistance(localPos[0], localPos[1], localPos[2], property.extCoords[0], property.extCoords[1], property.extCoords[2]);
 
-                if (d < 50)
+                if (d < 20)
                 {
                     DrawingMarkers = true;
                     ClosestProperty = property;
-                    DrawMarker(25, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 255, 255, 255, false, false, 2, false, null, null, false);
+                    DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 255, 255, 255, true, false, 2, false, null, null, false);
                 }
                 else
                 {
