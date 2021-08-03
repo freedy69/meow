@@ -126,10 +126,12 @@ function RangePlayerChange()
     if (!InRange)
     {
         log("exited range");
+        _called = false;
     }
     else
     {
         log('entered range');
+        _called = false;
     }
 }
 
