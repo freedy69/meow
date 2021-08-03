@@ -53,9 +53,9 @@ async function CheckPos()
                     ClosestProperty = property;
                     DrawMarker(0, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
 
-                    if (property.hasGarage)
+                    if (property.garage.hasGarage)
                     {
-                        DrawMarker(0, property.garageCoords[0], property.garageCoords[1], property.garageCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
+                        DrawMarker(0, property.garage.extCoords[0], property.garage.extCoords[1], property.garage.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 105, 136, 184, 255, true, false, 2, false, null, null, false);
                     }
                 }
                 else
@@ -80,13 +80,13 @@ function CreatePropertyBlips(property)
     BeginTextCommandSetBlipName(property.txtEntry);
     EndTextCommandSetBlipName(blip);    
 
-    if (property.hasGarage)
+    if (property.garage.hasGarage)
     {
-        AddTextEntry(property.garageTxtEntry, property.garageName);
-        var garageBlip = AddBlipForCoord(property.garageCoords[0], property.garageCoords[1], property.garageCoords[2]);
-        SetBlipSprite(garageBlip, property.garageBlipId);
+        AddTextEntry(property.garage.txtEntry, property.garage.name);
+        var garageBlip = AddBlipForCoord(property.garage.extCoords[0], property.garage.extCoords[1], property.garage.extCoords[2]);
+        SetBlipSprite(garageBlip, property.garage.blipId);
         SetBlipAsShortRange(garageBlip, true);
-        BeginTextCommandSetBlipName(property.garageTxtEntry);
+        BeginTextCommandSetBlipName(property.garage.txtEntry);
         EndTextCommandSetBlipName(garageBlip);
     }
 }
