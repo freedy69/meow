@@ -48,9 +48,9 @@ onNet("Properties->ReceiveList", (properties) => {
 
 async function CheckPos()
 {
-    if (PropertiesReceived)
+    while (true)
     {
-        while (true)
+        if (PropertiesReceived)
         {
             var localPos = GetEntityCoords(PlayerPedId());
             for (property of Properties)
@@ -62,9 +62,9 @@ async function CheckPos()
                     console.log(`player is closest to ${property.name} at ${property.extCoords}`);
                 }
             }
-
-            await WAIT(5000);
         }
+
+        await WAIT(5000);
     }
 }
 
