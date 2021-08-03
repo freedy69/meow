@@ -23,33 +23,15 @@ on("onResourceStart", (res) => {
 });
 
 onNet("Properties->ReceiveList", (properties) => {
-    Properties = properties;
-    PropertiesReceived = true;
-    console.log(properties);
-
-    for (property of properties)
+    if (properties != null)
     {
-        AddTextEntry(property.txtEntry, property.name);
-        AddTextEntry(property.garageTxtEntry, property.garageName);
-
-        var blip = AddBlipForCoord(property.extCoords[0], property.extCoords[1], property.extCoords[2]);
-        SetBlipSprite(blip, property.blipId);
-        SetBlipAsShortRange(blip, true);
-        SetBlipCategory(blip, 10);
-        BeginTextCommandSetBlipName(property.txtEntry);
-        EndTextCommandSetBlipName(blip);
-
-        console.log(`creating blip for ${property.name}`);
-
-        if (property.hasGarage)
-        {
-            var garageBlip = AddBlipForCoord(property.garageCoords[0], property.garageCoords[1], property.garageCoords[2]);
-            SetBlipSprite(garageBlip, property.garageBlipId);
-            SetBlipAsShortRange(garageBlip, true);
-            BeginTextCommandSetBlipName(property.garageTxtEntry);
-            EndTextCommandSetBlipName(garageBlip);
+        Properties = properties;
+        PropertiesReceived = true;
     
-            console.log(`creating blip for ${property.garageName}`);
+        for (property of properties)
+        {
+            CreatePropertyBlips(property);
+            console.log("Creating blips for property ", property.name);
         }
     }
 });
@@ -85,6 +67,27 @@ async function CheckPos()
         }
 
         await WAIT(ClosestProperty ? NearbyWaitTime : NotNearbyWaitTime);
+    }
+}
+
+function CreatePropertyBlips(property)
+{
+    AddTextEntry(property.txtEntry, property.name);
+    var blip = AddBlipForCoord(property.extCoords[0], property.extCoords[1], property.extCoords[2]);
+    SetBlipSprite(blip, property.blipId);
+    SetBlipAsShortRange(blip, true);
+    SetBlipCategory(blip, 10);
+    BeginTextCommandSetBlipName(property.txtEntry);
+    EndTextCommandSetBlipName(blip);    
+
+    if (property.hasGarage)
+    {
+        AddTextEntry(property.garageTxtEntry, property.garageName);
+        var garageBlip = AddBlipForCoord(property.garageCoords[0], property.garageCoords[1], property.garageCoords[2]);
+        SetBlipSprite(garageBlip, property.garageBlipId);
+        SetBlipAsShortRange(garageBlip, true);
+        BeginTextCommandSetBlipName(property.garageTxtEntry);
+        EndTextCommandSetBlipName(garageBlip);
     }
 }
 
