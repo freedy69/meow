@@ -3,6 +3,7 @@ console.log("hi");
 var Properties =
 [
     {
+        id: 1,
         extCoords: [-774.02, 310.89, 85.7],
         name: "Eclipse Tower Apartments",
         garage: 
@@ -27,6 +28,7 @@ var Properties =
         ]
     },
     {
+        id: 2,
         extCoords: [-340.36, 626.12, 171.36],
         name: "Kimble Hill Residence",
         garage:
