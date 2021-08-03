@@ -19,8 +19,13 @@ onNet("Properties->ReceiveList", (properties) => {
 
     for (property of properties)
     {
+        AddTextEntry(property.txtEntry, property.name);
+
         var blip = AddBlipForCoord(property.extCoords[0], property.extCoords[1], property.extCoords[2]);
         SetBlipSprite(blip, property.blipId);
+        BeginTextCommandSetBlipName(property.txtEntry);
+        EndTextCommandSetBlipName(blip);
+
         console.log(`creating blip for ${property}`);
     }
 });
