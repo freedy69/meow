@@ -1,6 +1,7 @@
 console.log("hi");
 
 var PropertiesReceived = false;
+var PropertiesBlips = [];
 
 on("playerSpawned", () => {
     emitNet("Properties->RequestList");
@@ -13,6 +14,16 @@ on("onResourceStart", (res) => {
     }
 });
 
+on("onResourceStop", (res) => {
+    if (res == GetCurrentResourceName())
+    {
+        for (blip of PropertiesBlips)
+        {
+            RemoveBlip(blip);
+        }
+    }
+})
+
 onNet("Properties->ReceiveList", (properties) => {
     PropertiesReceived = false;
     console.log(properties);
@@ -23,10 +34,11 @@ onNet("Properties->ReceiveList", (properties) => {
 
         var blip = AddBlipForCoord(property.extCoords[0], property.extCoords[1], property.extCoords[2]);
         SetBlipSprite(blip, property.blipId);
-        SetBlipCategory(blip, 10);
         BeginTextCommandSetBlipName(property.txtEntry);
         EndTextCommandSetBlipName(blip);
 
-        console.log(`creating blip for ${property.name}`);
+        PropertiesBlips.push(blip);
+
+        console.log(`creating blip for ${property}`);
     }
 });
