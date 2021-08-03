@@ -3,8 +3,11 @@ console.log("hi");
 var WAIT = (ms) => new Promise(res => setTimeout(res, ms));
 var Properties = null;
 var PropertiesReceived = false;
+var DrawingMarkers = false;
+var ClosestProperty = null;
 
 CheckPos();
+DrawPropertyMarkers(ClosestProperty);
 
 on("playerSpawned", () => {
     emitNet("Properties->RequestList");
@@ -49,26 +52,37 @@ onNet("Properties->ReceiveList", (properties) => {
 async function CheckPos()
 {
     while (true)
-    {
-        console.log("test check pos");
-        
+    {        
         if (PropertiesReceived)
         {
             var localPos = GetEntityCoords(PlayerPedId());
             for (property of Properties)
             {
-                console.log(`checking distance for ${property.name}`);
-
                 var d = GetDistance(localPos[0], localPos[1], localPos[2], property.extCoords[0], property.extCoords[1], property.extCoords[2]);
 
                 if (d < 50)
                 {
-                    console.log(`player is closest to ${property.name} at ${property.extCoords}`);
+                    DrawingMarkers = true;
+                    ClosestProperty = property;
+                }
+                else
+                {
+                    DrawingMarkers = false;
+                    ClosestProperty = null;
                 }
             }
         }
 
         await WAIT(5000);
+    }
+}
+
+async function DrawPropertyMarkers(property)
+{
+    while (DrawingMarkers && property != null)
+    {
+        DrawMarker(25, property.extCoords[0], property.extCoords[1], property.extCoords[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 255, 255, 255, false, false, 2, false, NULL, NULL, false);
+        await WAIT(0);
     }
 }
 
