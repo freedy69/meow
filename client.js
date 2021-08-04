@@ -87,7 +87,7 @@ async function CheckPos()
     }
 }
 
-async function PlayerEnteredPropertyRange(property)
+function PlayerEnteredPropertyRange(property)
 {
     AnnounceNearbyProperty(property.name, true);  
 }
