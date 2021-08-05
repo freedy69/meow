@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+    <div class="menu">
+        <h1 class="mtitle" id="menuTitle">Properties</h1>
+        <div class="glass" id="menuGlass">
+            <h2 class="mdesc" id="menuDescription">Loading description...</h2>
+        </div>
+    </div>
+</body>
+<script>
+    var menuTitle = document.getElementById("menuTitle");
+    var menuGlass = document.getElementById("menuGlass");
+    menuTitle.style.display = "none";
+    menuGlass.style.display = "none";
+
+    var currentlyHidden = false;
+    var currentProperty = null;
+
+    window.addEventListener("message", (event) => {
+        if (event.data == "show")
+        {
+            console.log("showing properties menu");
+            ManageMenu();
+        }
+        else if (event.data == "hide")
+        {
+            console.log("hiding properties menu");
+            ManageMenu();
+            currentProperty = null;
+        }
+        else if (event.data == "pause-menu-active")
+        {
+            console.log("currently hiding menu, pause menu is active...");
+            CurrentlyHideMenu();
+        }
+        else if (event.data == "pause-menu-deactivated")
+        {
+            console.log("pause menu was closed, resetting menu visibility");
+            ResetHiddenMenu();
+        }
+        else
+        {
+            var stringified = JSON.stringify(event.data);
+            var parsed = JSON.parse(stringified);
+            currentProperty = parsed;
+            console.log("got property info of ", currentProperty.name);
+        }
+    });
+
+    function CurrentlyHideMenu()
+    {
+        var menuTitle = document.getElementById("menuTitle");
+        var menuGlass = document.getElementById("menuGlass");
+        menuTitle.style.display = 'none';
+        menuGlass.style.display = 'none';
+        currentlyHidden = true;
+    }
+
+    function ResetHiddenMenu()
+    {
+        var menuTitle = document.getElementById("menuTitle");
+        var menuGlass = document.getElementById("menuGlass");
+        menuTitle.style.display = 'block';
+        menuGlass.style.display = 'block';
+        currentlyHidden = false;
+    }
+
+    function ManageMenu()
+    {
+        var menuTitle = document.getElementById("menuTitle");
+        var menuGlass = document.getElementById("menuGlass");
+        var menuDesc = menuGlass.firstElementChild;
+        if (menuTitle.style.display == "block")
+        {
+            menuTitle.style.display = "none";
+            menuGlass.style.display = "none";
+        }
+        else
+        {
+            menuTitle.style.display = "block";
+            menuGlass.style.display = "block";
+            menuTitle.textContent = currentProperty.name;
+            menuDesc.textContent = MakePropertyDescription(currentProperty);
+            ManageApartments();
+        }
+    }
+
+    function MakePropertyDescription(property)
+    {
+        var hasMultipleApartments = (property.apartments.length > 1);
+        var hasGarage = property.garage.hasGarage;
+        var desc = `This property has ${property.apartments.length} ${hasMultipleApartments ? "apartments" : "apartment"} ${hasGarage ? (hasMultipleApartments ? "and they all have their own garage" : "and it has its own garage") : "but it does not have garages"}. Would you like to enter ${hasMultipleApartments ? "one of them?" : "it?"}`;
+        return desc;
+    }
+
+    function ManageApartments()
+    {
+        console.log("creating elements for ", currentProperty.apartments.length, "apartments");
+
+        /*var apaCount = 1;
+        var lastDiv = null;
+
+        for (apartment of currentProperty.apartments)
+        {
+            var apaDiv = document.createElement("div");
+            apaDiv.setAttribute("id", `apa${apaCount}`);
+            lastDiv = document.getElementById((lastDiv == null) ? `apa${apaCount}` : "menu");
+            apaDiv.style.backgroundColor = "white";
+            apaDiv.style.minHeight = "80vh";
+            apaDiv.style.width = "50%";
+            apaCount++;
+            console.log("created div ", apaDiv.getAttribute("id"));
+        }*/
+    }
+</script>
+</html>
