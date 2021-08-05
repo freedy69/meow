@@ -76,6 +76,43 @@ var Properties =
                 intCoords: [0, 0, 0]
             }
         ]
+    },
+    {
+        id: 4,
+        extCoords: [-1151.12, -913, 6.63],
+        name: "Prosperity Apartment Complex",
+        garage:
+        {
+            hasGarage: true,
+            extCoords: [-1147.43, -908.9, 2.69],
+            blipId: 357,
+            name: "Prosperity Apts. - Garage",
+            txtEntry: "G_PRS_CMP",
+            intCoords: [179.03, -1000.79, -99]
+        },
+        txtEntry: "PRS_CMP",
+        blipId: 40,
+        apartments:
+        [
+            {
+                type: "Cheap",
+                name: "2728 Prosperity Street",
+                price: 250000,
+                intCoords: [0, 0, 0]
+            },
+            {
+                type: "Cheap",
+                name: "4731 Prosperity Street",
+                price: 250000,
+                intCoords: [0, 0, 0]
+            },
+            {
+                type: "Cheap",
+                name: "1402 Prosperity Street",
+                price: 250000,
+                intCoords: [0, 0, 0]
+            }
+        ]
     }
 ];
 
