@@ -94,7 +94,7 @@ function PlayerEnteredPropertyRange(property)
 
 function PlayerLeftPropertyRange(property)
 {
-    AnnounceNearbyProperty(property.name,
+    AnnounceNearbyProperty(property.name, true);
 }
 
 function AnnounceNearbyProperty(name, entering)
