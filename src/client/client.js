@@ -19,8 +19,10 @@ var PauseMenuCurrentCount = 0;
 var PauseMenuMaxCount = 1;
 var PauseMenuOpened = false;
 
+emitNet("Properties->RequestList");
 CheckPos();
 
+/*
 on("playerSpawned", () => {
     if (!PropertiesReceived)
     {
@@ -28,12 +30,14 @@ on("playerSpawned", () => {
     }
 });
 
+
 on("onResourceStart", (res) => {
     if (res == GetCurrentResourceName())
     {
         emitNet("Properties->RequestList");
     }
 });
+*/
 
 onNet("Properties->ReceiveList", (properties) => {
     if (properties != null)
