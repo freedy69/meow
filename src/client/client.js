@@ -81,6 +81,11 @@ async function CheckPos()
                 else
                 {
                     HideHudAndRadarThisFrame();
+                    DisableControlAction(0, 1, true); // look lr
+                    DisableControlAction(0, 2, true); // look ud
+                    DisableControlAction(0, 24, true); // attack
+                    DisableControlAction(0, 25, true); // aim
+                    
                     if (IsPauseMenuActive())
                     {
                         if (PauseMenuCurrentCount < PauseMenuMaxCount)
@@ -106,12 +111,7 @@ async function CheckPos()
                 }
 
                 if (IsPlayerInMarker(ClosestProperty.extCoords))
-                {
-                    DisableControlAction(0, 1, true); // look lr
-                    DisableControlAction(0, 2, true); // look ud
-                    DisableControlAction(0, 24, true); // attack
-                    DisableControlAction(0, 25, true); // aim
-                    
+                {   
                     if (MarkerCurrentCount < MarkerMaxCount)
                     {
                         PlayerEnteredPropertyMarker(ClosestProperty);
