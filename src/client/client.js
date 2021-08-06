@@ -1,4 +1,4 @@
-console.log("hi IS DIS SHITE WORKING");
+console.log("hi");
 
 var WAIT = (ms) => new Promise(res => setTimeout(res, ms));
 var Properties = null;
@@ -57,7 +57,7 @@ async function CheckPos()
     {        
         if (PropertiesReceived)
         {
-            ClosestProperty = GetClosestProperty();
+            ClosestProperty = Properties[GetClosestPropertyIndex()]; // this returns the index of the property in the big array okokokok
 
             if (ClosestProperty)
             {
@@ -218,7 +218,7 @@ function CreatePropertyBlips(property)
     }
 }
 
-function GetClosestProperty()
+function GetClosestPropertyIndex()
 {
     var localPos = GetEntityCoords(PlayerPedId());
     for (var i = 0; i < Properties.length; i++)
@@ -226,7 +226,7 @@ function GetClosestProperty()
         var distance = GetDistance(localPos[0], localPos[1], localPos[2], Properties[i].extCoords[0], Properties[i].extCoords[1], Properties[i].extCoords[2]);
         if (distance < NearbyDistance)
         {
-            return Properties[i];
+            return i;
         }
     }
 }
