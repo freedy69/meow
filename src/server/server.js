@@ -20,6 +20,7 @@ var Properties =
         apartments: 
         [
             {
+                id: 1,
                 type: "Luxury",
                 name: "Apartment 1",
                 price: 1000000,
@@ -45,7 +46,8 @@ var Properties =
         apartments:
         [
             {
-                type: "Luxury",
+                id: 1,
+                type: "Exclusive",
                 name: "1378 Kimble Hill",
                 price: 2500000,
                 intCoords: [0, 0, 0]
@@ -70,6 +72,7 @@ var Properties =
         apartments:
         [
             {
+                id: 1,
                 type: "Modest",
                 name: "3102 West Mirror Drive",
                 price: 650000,
@@ -95,31 +98,98 @@ var Properties =
         apartments:
         [
             {
+                id: 1,
                 type: "Cheap",
                 name: "2728 Prosperity Street",
                 price: 250000,
                 intCoords: [0, 0, 0]
             },
             {
+                id: 2,
                 type: "Cheap",
                 name: "4731 Prosperity Street",
                 price: 250000,
                 intCoords: [0, 0, 0]
             },
             {
+                id: 3,
                 type: "Cheap",
                 name: "1402 Prosperity Street",
                 price: 250000,
                 intCoords: [0, 0, 0]
             }
         ]
+    },
+    {
+        id: 5,
+        extCoords: [-970.59, -1431.46, 7.68],
+        name: "La Puerta Apartments",
+        garage:
+        {
+            hasGarage: true,
+            extCoords: [-980.06, -1449.56, 4.75],
+            blipId: 357,
+            name: "La Puerta Apts. - Garage",
+            txtEntry: "G_LPT_APT",
+            intCoords: [211.66, -999.18, -99]
+        },
+        txtEntry: "LPT_APT",
+        blipId: 40,
+        apartments:
+        [
+            {
+                id: 1,
+                type: "Modest",
+                name: "0045 Tug Street",
+                price: 630000,
+                intCoords: [0, 0, 0]
+            },
+            {
+                id: 2,
+                type: "Modest",
+                name: "1702 Tug Street",
+                price: 630000,
+                intCoords: [0, 0, 0]
+            },
+            {
+                id: 3,
+                type: "Cheap",
+                name: "8012 Tug Street",
+                price: 470000,
+                intCoords: [0, 0, 0]
+            },
+            {
+                id: 4,
+                type: "Cheap",
+                name: "2578 Tug Street",
+                price: 470000,
+                intCoords: [0, 0, 0]
+            }
+        ]
     }
 ];
 
-onNet("Properties->RequestList", () => {
+onNet("Properties->RequestList", () => 
+{
     var _source = source;
     var _name = GetPlayerName(_source);
 
     console.log(`[${_source}] ${_name} requested properties, sending...`);
     emitNet("Properties->ReceiveList", _source, Properties);
 });
+
+onNet("Properties->EnterApartmentRequest", (id, name) => 
+{
+    var _source = source;
+    var _name = GetPlayerName(_source);
+    console.log(`[${_source}] ${_name} requested to enter [${id}] ${name}`);
+
+    emitNet("Properties->EnterApartmentResponse", _source, [CanPlayerEnterApartment(), id, name]);
+});
+
+function CanPlayerEnterApartment(player, aptId)
+{
+    return true;
+    // idk what the criteria for accepting and denying players will be yet, probably economy related
+    // but for now just accept everyone lol
+}
