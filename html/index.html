@@ -23,6 +23,9 @@
 
     var currentlyHidden = false;
     var currentProperty = null;
+    var divsCreated = false;
+    var createdDivList = [];
+    var evListeners = [];
 
     window.addEventListener("message", (event) => {
         if (event.data == "show")
@@ -30,6 +33,7 @@
             console.log("showing properties menu");
             ManageMenu();
         }
+        /* dont need any of these for now and prob never again
         else if (event.data == "hide")
         {
             console.log("hiding properties menu");
@@ -45,6 +49,22 @@
         {
             console.log("pause menu was closed, resetting menu visibility");
             ResetHiddenMenu();
+        }*/
+        else if (event.data == "reset-divs")
+        {
+            divsCreated = false;
+            RemoveUnneededDivs();
+            evListeners = [];
+            console.log("set divsCreated to ", divsCreated);
+            console.log("div array is now ", createdDivList);
+        }
+        else if (event.data == "enter-req-accepted")
+        {
+            console.log("accepted");
+        }
+        else if (event.data == "enter-req-denied")
+        {
+            console.log("denied");
         }
         else
         {
@@ -55,6 +75,24 @@
         }
     });
 
+    window.addEventListener("keydown", (ev) => 
+    { 
+        if (ev.keyCode == 13)
+        {
+            console.log("pressed ", ev.key);
+            fetch(`https://${GetParentResourceName()}/keyDownCloseMenu`, 
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+                body: JSON.stringify({ what: ev.key })
+            })
+            .then(res => res.json()).then(res => console.log(res));
+            ManageMenu();
+            currentProperty = null;
+        }
+    });
+
+    /* dont need these either
     function CurrentlyHideMenu()
     {
         var menuTitle = document.getElementById("menuTitle");
@@ -71,7 +109,7 @@
         menuTitle.style.display = 'block';
         menuGlass.style.display = 'block';
         currentlyHidden = false;
-    }
+    }*/
 
     function ManageMenu()
     {
@@ -89,7 +127,12 @@
             menuGlass.style.display = "block";
             menuTitle.textContent = currentProperty.name;
             menuDesc.textContent = MakePropertyDescription(currentProperty);
-            ManageApartments();
+
+            if (!divsCreated)
+            {
+                ManageApartments();
+                CreateListeners();
+            }
         }
     }
 
@@ -103,22 +146,128 @@
 
     function ManageApartments()
     {
-        /*console.log("creating elements for ", currentProperty.apartments.length, "apartments");
-
-        var apaCount = 1;
-        var lastDiv = null;
-
-        for (apartment of currentProperty.apartments)
+        if (!divsCreated)
         {
-            var apaDiv = document.createElement("div");
-            apaDiv.setAttribute("id", `apa${apaCount}`);
-            lastDiv = document.getElementById((lastDiv == null) ? `apa${apaCount}` : "menu");
-            apaDiv.style.backgroundColor = "white";
-            apaDiv.style.minHeight = "80vh";
-            apaDiv.style.width = "50%";
-            apaCount++;
-            console.log("created div ", apaDiv.getAttribute("id"));
-        }*/
+            console.log("creating elements for ", currentProperty.apartments.length, "apartments");
+
+            var apaCount = 1;
+            var lastDiv = null;
+
+            for (apartment of currentProperty.apartments)
+            {
+                console.log("SETTING IMG PATH TO ", currentProperty.img)
+
+                var apaDiv = document.createElement("div");
+                apaDiv.className = "apa-" + apaCount;
+                apaDiv.id = apaCount + "apa";
+                apaDiv.innerHTML += `<h4 id="${apaCount}">${apartment.name}</h4>\n<div id="mg${apaCount}"><img src="${GetApartmentImageDir(apartment)}" id="img${apaCount}"><h6 id="desc${apaCount}">Price: $${apartment.price}<br>Type: ${apartment.type}</h6></div>`;
+
+                document.getElementById("menuGlass").appendChild(apaDiv);
+                var apaTitle = document.getElementById(apaCount);
+                apaTitle.style.fontFamily = 'SFPro';
+                apaTitle.style.textAlign = 'center';
+                apaTitle.style.paddingTop = '2%';
+                apaTitle.style.fontSize = '0.85vw';
+                //apaTitle.style.color = 'white';
+                var mgDiv = document.getElementById("mg" + apaCount);
+                mgDiv.style.backgroundColor = 'white';
+                mgDiv.style.minHeight = '15vh';
+                mgDiv.style.width = '50%';
+                mgDiv.style.borderRadius = '1.5rem';
+                mgDiv.style.margin = '0 auto';
+                mgDiv.style.background = 'linear-gradient(to right bottom, rgba(255, 255, 255, 0.7), rgba(220, 220, 220, 0.3))';
+                mgDiv.style.animation = 'fadein 2s ease-in-out';
+                mgDiv.setAttribute("data-aptname", apartment.name);
+                mgDiv.setAttribute("data-aptid", apartment.id);
+                //mgDiv.style.paddingTop = '3vh';
+                var imgDiv = document.getElementById("img" + apaCount);
+                imgDiv.style.width = '10vw';
+                imgDiv.style.height = '10vh';
+                imgDiv.style.borderRadius = '0.8rem';
+                imgDiv.style.marginTop = '2.5vh';
+                imgDiv.style.marginLeft = '2vh';
+                //
+                var apaDesc = document.getElementById("desc" + apaCount);
+                apaDesc.style.fontFamily = 'SFPro';
+                apaDesc.style.marginLeft = '13vw';
+                apaDesc.style.marginTop = '-7vh'
+                apaDesc.style.fontSize = '1vw';
+
+                lastDiv = apaDiv;
+                createdDivList.push(apaCount);
+                evListeners.push(mgDiv);
+                apaCount++;
+                console.log("created div");
+            }
+
+            divsCreated = true;
+        }
+    }
+
+    function CreateListeners()
+    {
+        for (let i = 0; i < evListeners.length; i++)
+        {
+            evListeners[i].addEventListener("click", OnClicked);
+            console.log(evListeners[i].id);
+        }
+    }
+
+    function OnClicked()
+    {
+        var divId = this.id;
+        var aptId = this.getAttribute("data-aptid");
+        var aptName = this.getAttribute("data-aptname");
+        fetch(`https://${GetParentResourceName()}/apartmentMenuClick`, 
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            body: JSON.stringify({ apartmentId: aptId, apartmentName: aptName })
+        })
+        .then(res => res.json()).then(res => console.log(res));
+
+        
+        console.log("clicked apartment ", aptId, aptName);
+    }
+
+    function RemoveUnneededDivs()
+    {
+        for (var i = 0; i < createdDivList.length; i++)
+        {
+            console.log(i, createdDivList);
+            //var _mg = document.getElementById(`mg${i}`);
+            //_mg.parentNode.removeChild(_mg);
+            //console.log(_mg.innerHTML)
+            var _div = document.getElementById(createdDivList[i] + "apa");
+            _div.parentNode.removeChild(_div);
+            console.log("removed div ", createdDivList[i], createdDivList);
+        }
+
+        createdDivList = [];
+    }
+
+    function GetApartmentImageDir(apartment)
+    {
+        var type = apartment.type;
+        var img = "";
+
+        switch (type)
+        {
+            case "Luxury":
+                img = "/img/type_luxury.png";
+                break;
+            case "Exclusive":
+                img = "/img/type_exclusive.png";
+                break;
+            case "Modest":
+                img = "/img/type_modest.png";
+                break;
+            case "Cheap":
+                img = "/img/type_cheap.png";
+                break;
+        }
+
+        return img;
     }
 </script>
 </html>
