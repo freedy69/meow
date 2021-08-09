@@ -18,9 +18,14 @@
     }
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 .mtitle
 {
     font-family: 'SFPro';
+    font-size: 2vw;
     text-align: center;
     color: aliceblue;
 }
@@ -30,7 +35,7 @@
     font-family: 'SFPro';
     text-align: center;
     color: aliceblue;
-    font-size: 19px;
+    font-size: 1vw;
     padding-top: 2vh;
 }
 
