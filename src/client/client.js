@@ -15,29 +15,10 @@ var RangeMaxCount = 1;
 var MarkerCurrentCount = 0;
 var MarkerMaxCount = 1;
 var NuiOpen = false;
-var PauseMenuCurrentCount = 0;
-var PauseMenuMaxCount = 1;
-var PauseMenuOpened = false;
+var HasNuiBeenClosed = false;
 
 emitNet("Properties->RequestList");
 CheckPos();
-
-/*
-on("playerSpawned", () => {
-    if (!PropertiesReceived)
-    {
-        emitNet("Properties->RequestList");
-    }
-});
-
-
-on("onResourceStart", (res) => {
-    if (res == GetCurrentResourceName())
-    {
-        emitNet("Properties->RequestList");
-    }
-});
-*/
 
 onNet("Properties->ReceiveList", (properties) => {
     if (properties != null)
@@ -54,6 +35,40 @@ onNet("Properties->ReceiveList", (properties) => {
         }
     }
 });
+
+onNet("Properties->EnterApartmentResponse", (data) => {
+    if (data[0])
+    {
+        console.log("server accepted enter request for ", data[1], data[2]);
+        SendNuiMessage(JSON.stringify("enter-req-accepted"));
+    }
+    else
+    {
+        console.log("server denied enter request for ", data[1], data[2]);
+        SendNuiMessage(JSON.stringify("enter-req-denied"));
+    }
+})
+
+// nui callbacks
+RegisterNuiCallbackType('keyDownCloseMenu');
+RegisterNuiCallbackType('apartmentMenuClick');
+
+on("__cfx_nui:keyDownCloseMenu", (data, cb) =>
+{
+    console.log("nui close request");
+
+    ManageNui();
+
+    cb("nui closed");
+});
+
+on("__cfx_nui:apartmentMenuClick", (data, cb) => 
+{
+    console.log("sending request to server for apartment ", data.apartmentId, data.apartmentName);
+    emitNet("Properties->EnterApartmentRequest", data.apartmentId, data.apartmentName);
+    cb("got it b");
+});
+//
 
 async function CheckPos()
 {
@@ -89,29 +104,6 @@ async function CheckPos()
                     DisableControlAction(0, 2, true); // look ud
                     DisableControlAction(0, 24, true); // attack
                     DisableControlAction(0, 25, true); // aim
-                    
-                    if (IsPauseMenuActive())
-                    {
-                        if (PauseMenuCurrentCount < PauseMenuMaxCount)
-                        {
-                            PauseMenuOpened = true;
-                            SendNuiMessage(JSON.stringify("pause-menu-active"));
-                            SetNuiFocus(false, false);
-                            PauseMenuCurrentCount++;
-                        }
-                    }
-                    else
-                    {
-                        if (PauseMenuOpened)
-                        {
-                            if (PauseMenuCurrentCount == PauseMenuMaxCount)
-                            {
-                                SendNuiMessage(JSON.stringify("pause-menu-deactivated"));
-                                SetNuiFocus(false, true);
-                                PauseMenuCurrentCount = 0;
-                            }
-                        }
-                    }
                 }
 
                 if (IsPlayerInMarker(ClosestProperty.extCoords))
@@ -153,7 +145,7 @@ function ManageNui(property)
     if (NuiOpen)
     {
         NuiOpen = false;
-        SendNuiMessage(JSON.stringify("hide"));
+        HasNuiBeenClosed = true;
         SetNuiFocus(false, false);
     }
     else
@@ -161,7 +153,7 @@ function ManageNui(property)
         NuiOpen = true;
         SendNuiMessage(JSON.stringify(property));
         SendNuiMessage(JSON.stringify("show"));
-        SetNuiFocus(false, true);
+        SetNuiFocus(true, true);
     }
 }
 
@@ -174,7 +166,6 @@ function PlayerEnteredPropertyMarker(property)
 function PlayerLeftPropertyMarker(property)
 {
     console.log("player left marker of ", property.name);
-    ManageNui();
 }
 
 function PlayerEnteredPropertyRange(property)
@@ -187,6 +178,7 @@ function PlayerLeftPropertyRange(property)
 {
     console.log("left range of ", property.name);
     AnnounceNearbyProperty(property.name, false);
+    SendNuiMessage(JSON.stringify("reset-divs"));
 }
 
 function AnnounceNearbyProperty(name, entering)
