@@ -44,6 +44,7 @@ onNet("Properties->EnterApartmentResponse", (data) => {
     {
         console.log("server accepted enter request for ", data[1], data[2]);
         SendNuiMessage(JSON.stringify("enter-req-accepted"));
+	ManageNui();
 	StartApartmentLoadingScreen(ClosestProperty.cameraSettings);
     }
     else
