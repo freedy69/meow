@@ -149,29 +149,24 @@ function StartApartmentLoadingScreen(pCamSettings)
 {
     if (pCamSettings)
     {
-        let interval;
-
         CurrentLoadingCamera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-
         console.log("creating camera", CurrentLoadingCamera);
     
-        interval = setInterval(() => 
+        let camInterval = setInterval(() => 
         {
             if (IsCamActive(CurrentLoadingCamera))
             {
-                clearInterval(interval);
-		        interval = null;
+                clearInterval(camInterval);
             }
         }, 0);
 	    
 	    let animDict = 'shake_cam_all@';
 	    RequestAnimDict(animDict);
-	    interval = setInterval(() => 
+	    let animInterval = setInterval(() => 
         {
 	        if (HasAnimDictLoaded(animDict))
 	        {
-	            clearInterval(interval);
-		    interval = null;
+	            clearInterval(animInterval);
 	        }
 	    }, 0);
 
