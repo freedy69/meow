@@ -247,7 +247,7 @@ async function ShowPropertiesMenu()
     SetPauseMenuScreen(42);
 
     HighlightAll(false, 26)
-    LockHeaderMouseSupport(true, true)
+    LockHeaderMouseSupport(false, false)
     ShowHeadingDetails(false)
     ShiftCoronaDesc(true, false)
     SetHeaderTextByIndex(0, 'COMPLEXES');
