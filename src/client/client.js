@@ -245,12 +245,13 @@ async function ShowPropertiesMenu()
     await WAIT(100);
 
     SetPauseMenuScreen(42);
-    HighlightAll(false, 26);
-    LockHeaderMouseSupport(false, false);
+    HighlightAll(true, 9);
     ShowHeadingDetails(false);
-    ShiftCoronaDesc(true, false);
     SetHeaderTextByIndex(0, 'COMPLEXES');
     SetHeaderTextByIndex(1, 'APARTMENTS');
+    SetHeaderTitle('Properties');
+    ShiftCoronaDesc(true, false);
+    LockHeaderMouseSupport(true, false);
 
     while (!IsControlJustReleased(2, 202))
     {
@@ -278,6 +279,15 @@ function AddTabItem(param0, param1, param2, param3, param4, param5, param6, para
         ScaleformMovieMethodAddParamPlayerNameString(param11)
         ScaleformMovieMethodAddParamBool(true)
         ScaleformMovieMethodAddParamBool(true)
+        EndScaleformMovieMethod()
+    }
+}
+
+function SetHeaderTitle(text)
+{
+    if (BeginScaleformMovieMethodOnFrontendHeader('SET_HEADER_TITLE'))
+    {
+        ScaleformMovieMethodAddParamPlayerNameString(text)
         EndScaleformMovieMethod()
     }
 }
@@ -330,11 +340,11 @@ function DisplayDataSlot(id)
     }
 }
 
-function HighlightAll(bool, color)
+function HighlightAll(disableHover, color)
 {
     if (BeginScaleformMovieMethodOnFrontendHeader('SET_ALL_HIGHLIGHTS'))
     {
-        ScaleformMovieMethodAddParamBool(bool)
+        ScaleformMovieMethodAddParamBool(disableHover)
         ScaleformMovieMethodAddParamInt(color)
         EndScaleformMovieMethod()
     }
@@ -384,4 +394,4 @@ function logtime(start)
 RegisterCommand('proplist', () =>
 {
     ShowPropertiesMenu()
-})
+});
