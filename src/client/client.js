@@ -17,6 +17,8 @@ var MarkerMaxCount = 1;
 var NuiOpen = false;
 var HasNuiBeenClosed = false;
 var SetPauseMenuScreen = N_0x77f16b447824da6c;
+var CurrentLoadingCamera = null;
+var ApartmentLoadingScreenActive = false;
 
 emitNet("Properties->RequestList");
 CheckPos();
@@ -42,6 +44,7 @@ onNet("Properties->EnterApartmentResponse", (data) => {
     {
         console.log("server accepted enter request for ", data[1], data[2]);
         SendNuiMessage(JSON.stringify("enter-req-accepted"));
+	StartApartmentLoadingScreen();
     }
     else
     {
@@ -156,6 +159,35 @@ function ManageNui(property)
         SendNuiMessage(JSON.stringify("show"));
         SetNuiFocus(true, true);
     }
+}
+
+function StartApartmentLoadingScreen()
+{
+    CurrentLoadingCamera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
+    
+    let interval = setInterval(() => {
+        if (IsCamActive(CurrentLoadingCamera))
+        {
+            clearInterval(interval);
+        }
+    }, 100);
+
+    SetCamActive(CurrentLoadingCamera, true);
+    SetCamCoord(CurrentLoadingCamera, 0, 0, 0);
+    PointCamAtCoord(CurrentLoadingCamera, 0, 0, 0);
+    SetCamFov(CurrentLoadingCamera, 60);
+    RenderScriptCams(true, false, 0);
+
+    ApartmentLoadingScreenActive = true;
+}
+
+function StopApartmentLoadingScreen()
+{
+    SetCamActive(CurrentLoadingCamera, false);
+    DestroyCam(CurrentLoadingCamera, true);
+    RenderScriptCams(false, false, 500, true, true);
+
+    ApartmentLoadingScreenActive = false;
 }
 
 function PlayerEnteredPropertyMarker(property)
