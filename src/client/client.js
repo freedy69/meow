@@ -245,8 +245,9 @@ async function ShowPropertiesMenu()
     await WAIT(100);
 
     SetPauseMenuScreen(42);
-    HighlightAll(true, 26)
-    ShiftCoronaDesc(true, true)
+
+    HighlightAll(false, 26)
+    ShiftCoronaDesc(true, false)
     SetHeaderTextByIndex(0, 'COMPLEXES');
     SetHeaderTextByIndex(1, 'APARTMENTS');
 
