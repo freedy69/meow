@@ -159,8 +159,14 @@ function StartApartmentLoadingScreen(pCamSettings)
                 clearInterval(camInterval);
             }
         }, 0);
-	    
-	    let animDict = 'shake_cam_all@';
+
+        SetCamActive(CurrentLoadingCamera, true);
+        SetCamCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
+        PointCamAtCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
+        SetCamFov(CurrentLoadingCamera, 60);
+        SetCamRot(CurrentLoadingCamera, pCamSettings.rx, pCamSettings.ry, pCamSettings.rz, 2);
+
+        let animDict = 'shake_cam_all@';
 	    RequestAnimDict(animDict);
 	    let animInterval = setInterval(() => 
         {
@@ -170,13 +176,9 @@ function StartApartmentLoadingScreen(pCamSettings)
 	        }
 	    }, 0);
 
-        SetCamActive(CurrentLoadingCamera, true);
-        SetCamCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
-        PointCamAtCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
-        SetCamFov(CurrentLoadingCamera, 60);
-        SetCamRot(CurrentLoadingCamera, pCamSettings.rx, pCamSettings.ry, pCamSettings.rz, 2);
 	    AnimatedShakeCam(CurrentLoadingCamera, animDict, 'light', '', 0.7);
 	    RemoveAnimDict(animDict);
+        
         RenderScriptCams(true, false, 0);
 	    DisplayRadar(false);
 	    ClearHelp(true);
