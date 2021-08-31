@@ -149,41 +149,44 @@ function StartApartmentLoadingScreen(pCamSettings)
 {
     if (pCamSettings)
     {
+        let interval;
 
         CurrentLoadingCamera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
 
         console.log("creating camera", CurrentLoadingCamera);
     
-        let interval = setInterval(() => {
+        interval = setInterval(() => 
+        {
             if (IsCamActive(CurrentLoadingCamera))
             {
                 clearInterval(interval);
-		interval = null;
+		        interval = null;
             }
         }, 0);
 	    
-	let animDict = 'shake_cam_all@';
-	RequestAnimDict(animDict);
-	interval = setInterval(() => {
-	    if (HasAnimDictLoaded(animDict))
-	    {
-	        clearInterval(interval);
-		interval = null;
-	    }
-	}, 0);
+	    let animDict = 'shake_cam_all@';
+	    RequestAnimDict(animDict);
+	    interval = setInterval(() => 
+        {
+	        if (HasAnimDictLoaded(animDict))
+	        {
+	            clearInterval(interval);
+		    interval = null;
+	        }
+	    }, 0);
 
         SetCamActive(CurrentLoadingCamera, true);
         SetCamCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
         PointCamAtCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
         SetCamFov(CurrentLoadingCamera, 60);
         SetCamRot(CurrentLoadingCamera, pCamSettings.rx, pCamSettings.ry, pCamSettings.rz, 2);
-	AnimatedShakeCam(CurrentLoadingCamera, animDict, 'light', '', 0.7);
-	RemoveAnimDict(animDict);
+	    AnimatedShakeCam(CurrentLoadingCamera, animDict, 'light', '', 0.7);
+	    RemoveAnimDict(animDict);
         RenderScriptCams(true, false, 0);
-	DisplayRadar(false);
-	ClearHelp(true);
-	BeginTextCommandBusyspinnerOn('mp_spinloading');
-	EndTextCommandBusyspinnerOn(1);
+	    DisplayRadar(false);
+	    ClearHelp(true);
+	    BeginTextCommandBusyspinnerOn('mp_spinloading');
+	    EndTextCommandBusyspinnerOn(1);
 
         console.log("camera created");
 
