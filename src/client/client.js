@@ -1,4 +1,4 @@
-console.log("hi");
+console.log("hi hello");
 
 var WAIT = (ms) => new Promise(res => setTimeout(res, ms));
 var Properties = null;
