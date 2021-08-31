@@ -242,14 +242,14 @@ async function ShowPropertiesMenu()
         await WAIT(100)
     }
 
-    await WAIT(100);
-
     SetPauseMenuScreen(42);
 
-    HighlightAll(false, 26)
-    LockHeaderMouseSupport(false, false)
-    ShowHeadingDetails(false)
-    ShiftCoronaDesc(true, false)
+    await WAIT(100);
+
+    HighlightAll(false, 26);
+    LockHeaderMouseSupport(false, false);
+    ShowHeadingDetails(false);
+    ShiftCoronaDesc(true, false);
     SetHeaderTextByIndex(0, 'COMPLEXES');
     SetHeaderTextByIndex(1, 'APARTMENTS');
 
