@@ -245,7 +245,8 @@ async function ShowPropertiesMenu()
     await WAIT(100);
 
     SetPauseMenuScreen(42);
-
+    HighlightAll(true, 26)
+    ShiftCoronaDesc(true, true)
     SetHeaderTextByIndex(0, 'COMPLEXES');
     SetHeaderTextByIndex(1, 'APARTMENTS');
 
@@ -289,6 +290,16 @@ function LockHeaderMouseSupport(bool1, bool2)
     }
 }
 
+function ShiftCoronaDesc(shiftDesc, hideTabs)
+{
+    if (BeginScaleformMovieMethodOnFrontendHeader('SHIFT_CORONA_DESC'))
+    {
+        ScaleformMovieMethodAddParamBool(shiftDesc)
+        ScaleformMovieMethodAddParamInt(hideTabs)
+        EndScaleformMovieMethod()
+    }
+}
+
 function SetHeaderTextByIndex(index, text)
 {
 	if (BeginScaleformMovieMethodOnFrontendHeader('SET_MENU_HEADER_TEXT_BY_INDEX'))
@@ -304,6 +315,16 @@ function DisplayDataSlot(id)
     if (BeginScaleformMovieMethodOnFrontend('DISPLAY_DATA_SLOT'))
     {
         ScaleformMovieMethodAddParamInt(id)
+        EndScaleformMovieMethod()
+    }
+}
+
+function HighlightAll(bool, color)
+{
+    if (BeginScaleformMovieMethodOnFrontendHeader('SET_ALL_HIGHLIGHTS'))
+    {
+        ScaleformMovieMethodAddParamBool(bool)
+        ScaleformMovieMethodAddParamInt(color)
         EndScaleformMovieMethod()
     }
 }
