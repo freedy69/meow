@@ -247,6 +247,8 @@ async function ShowPropertiesMenu()
     SetPauseMenuScreen(42);
 
     HighlightAll(false, 26)
+    LockHeaderMouseSupport(true, true)
+    ShowHeadingDetails(false)
     ShiftCoronaDesc(true, false)
     SetHeaderTextByIndex(0, 'COMPLEXES');
     SetHeaderTextByIndex(1, 'APARTMENTS');
@@ -277,6 +279,15 @@ function AddTabItem(param0, param1, param2, param3, param4, param5, param6, para
         ScaleformMovieMethodAddParamPlayerNameString(param11)
         ScaleformMovieMethodAddParamBool(true)
         ScaleformMovieMethodAddParamBool(true)
+        EndScaleformMovieMethod()
+    }
+}
+
+function ShowHeadingDetails(yesNo)
+{
+    if (BeginScaleformMovieMethodOnFrontendHeader('SHOW_HEADING_DETAILS'))
+    {
+        ScaleformMovieMethodAddParamBool(yesNo)
         EndScaleformMovieMethod()
     }
 }
