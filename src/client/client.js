@@ -167,6 +167,8 @@ function StartApartmentLoadingScreen(pCamSettings)
         SetCamFov(CurrentLoadingCamera, 60);
         SetCamRot(CurrentLoadingCamera, pCamSettings.rx, pCamSettings.ry, pCamSettings.rz, 2);
         RenderScriptCams(true, false, 0);
+	BeginTextCommandBusyspinnerOn('mp_spinloading');
+	EndTextCommandBusyspinnerOn(1);
 
         console.log("camera created");
 
