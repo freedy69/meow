@@ -6,6 +6,14 @@ var Properties =
         id: 1,
         extCoords: [-774.02, 310.89, 85.7],
         name: "Eclipse Tower Apartments",
+        cameraSettings: {
+            x: -885.52, 
+            y: 181.33, 
+            z: 190.33, 
+            rx: -10,
+            ry: 0, 
+            rz: -38
+        },
         garage: 
         {
             hasGarage: true,
