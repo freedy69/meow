@@ -165,20 +165,6 @@ function StartApartmentLoadingScreen(pCamSettings)
         PointCamAtCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
         SetCamFov(CurrentLoadingCamera, 60);
         SetCamRot(CurrentLoadingCamera, pCamSettings.rx, pCamSettings.ry, pCamSettings.rz, 2);
-
-        let animDict = 'shake_cam_all@';
-	    RequestAnimDict(animDict);
-	    let animInterval = setInterval(() => 
-        {
-	        if (HasAnimDictLoaded(animDict))
-	        {
-	            clearInterval(animInterval);
-	        }
-	    }, 0);
-
-	    AnimatedShakeCam(CurrentLoadingCamera, animDict, 'light', '', 0.7);
-	    RemoveAnimDict(animDict);
-        
         RenderScriptCams(true, false, 0);
 	    DisplayRadar(false);
 	    ClearHelp(true);
@@ -186,7 +172,6 @@ function StartApartmentLoadingScreen(pCamSettings)
 	    EndTextCommandBusyspinnerOn(1);
 
         console.log("camera created");
-
         ApartmentLoadingScreenActive = true;
     }
 }
@@ -197,6 +182,7 @@ function StopApartmentLoadingScreen()
     DestroyCam(CurrentLoadingCamera, true);
     RenderScriptCams(false, false, 500, true, true);
     DisplayRadar(true);
+    BusyspinnerOff();
 
     CurrentLoadingCamera = null;
     ApartmentLoadingScreenActive = false;
