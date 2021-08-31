@@ -16,6 +16,7 @@ var MarkerCurrentCount = 0;
 var MarkerMaxCount = 1;
 var NuiOpen = false;
 var HasNuiBeenClosed = false;
+var SetPauseMenuScreen = N_0x77f16b447824da6c;
 
 emitNet("Properties->RequestList");
 CheckPos();
@@ -232,6 +233,81 @@ function GetClosestPropertyIndex()
     }
 }
 
+async function ShowPropertiesMenu()
+{
+    ActivateFrontendMenu(GetHashKey('FE_MENU_VERSION_CORONA'));
+    while (!IsFrontendReadyForControl() || !IsPauseMenuActive() || IsPauseMenuRestarting())
+    {
+        log('waiting')
+        await WAIT(100)
+    }
+
+    await WAIT(100);
+
+    SetPauseMenuScreen(42);
+
+    SetHeaderTextByIndex(0, 'COMPLEXES');
+    SetHeaderTextByIndex(1, 'APARTMENTS');
+
+    while (!IsControlJustReleased(2, 202))
+    {
+        await WAIT(0);
+    }
+
+    SetFrontendActive(false);
+}
+
+function AddTabItem(param0, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11) 
+{
+    if (BeginScaleformMovieMethodOnFrontend("SET_DATA_SLOT")) 
+    {
+        ScaleformMovieMethodAddParamInt(param0)
+        ScaleformMovieMethodAddParamInt(param1)
+        ScaleformMovieMethodAddParamInt(param2)
+        ScaleformMovieMethodAddParamInt(param3)
+        ScaleformMovieMethodAddParamInt(param4)
+        ScaleformMovieMethodAddParamInt(param5)
+        ScaleformMovieMethodAddParamInt(param6)
+        ScaleformMovieMethodAddParamPlayerNameString(param7)
+        ScaleformMovieMethodAddParamPlayerNameString(param8)
+        ScaleformMovieMethodAddParamPlayerNameString(param9)
+        ScaleformMovieMethodAddParamPlayerNameString(param10)
+        ScaleformMovieMethodAddParamPlayerNameString(param11)
+        ScaleformMovieMethodAddParamBool(true)
+        ScaleformMovieMethodAddParamBool(true)
+        EndScaleformMovieMethod()
+    }
+}
+
+function LockHeaderMouseSupport(bool1, bool2)
+{
+    if (BeginScaleformMovieMethodOnFrontendHeader('LOCK_MOUSE_SUPPORT'))
+    {
+        ScaleformMovieMethodAddParamBool(bool1)
+        ScaleformMovieMethodAddParamBool(bool2)
+        EndScaleformMovieMethod()
+    }
+}
+
+function SetHeaderTextByIndex(index, text)
+{
+	if (BeginScaleformMovieMethodOnFrontendHeader('SET_MENU_HEADER_TEXT_BY_INDEX'))
+    {
+        ScaleformMovieMethodAddParamInt(index)
+        ScaleformMovieMethodAddParamPlayerNameString(text)
+        EndScaleformMovieMethod()
+    }
+}
+
+function DisplayDataSlot(id)
+{
+    if (BeginScaleformMovieMethodOnFrontend('DISPLAY_DATA_SLOT'))
+    {
+        ScaleformMovieMethodAddParamInt(id)
+        EndScaleformMovieMethod()
+    }
+}
+
 function IsPlayerInMarker(markerCoords)
 {
     var c = GetEntityCoords(PlayerPedId());
@@ -272,3 +348,8 @@ function logtime(start)
         return `took ${res} ms`;
     }
 }
+
+RegisterCommand('proplist', () =>
+{
+    ShowPropertiesMenu()
+})
