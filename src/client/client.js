@@ -1,4 +1,4 @@
-console.log("hi123");
+console.log("hi");
 
 var WAIT = (ms) => new Promise(res => setTimeout(res, ms));
 var Properties = null;
@@ -17,6 +17,8 @@ var MarkerMaxCount = 1;
 var NuiOpen = false;
 var HasNuiBeenClosed = false;
 var SetPauseMenuScreen = N_0x77f16b447824da6c;
+var CurrentLoadingCamera = null;
+var ApartmentLoadingScreenActive = false;
 
 emitNet("Properties->RequestList");
 CheckPos();
@@ -42,6 +44,7 @@ onNet("Properties->EnterApartmentResponse", (data) => {
     {
         console.log("server accepted enter request for ", data[1], data[2]);
         SendNuiMessage(JSON.stringify("enter-req-accepted"));
+	StartApartmentLoadingScreen(ClosestProperty.cameraSettings);
     }
     else
     {
@@ -139,6 +142,44 @@ async function CheckPos()
 
         await WAIT(ClosestProperty ? NearbyWaitTime : NotNearbyWaitTime);
     }
+}
+
+function StartApartmentLoadingScreen(pCamSettings)
+{
+    if (pCamSettings)
+    {
+
+        CurrentLoadingCamera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
+
+        console.log("creating camera", CurrentLoadingCamera);
+    
+        let interval = setInterval(() => {
+            if (IsCamActive(CurrentLoadingCamera))
+            {
+                clearInterval(interval);
+            }
+        }, 0);
+
+        SetCamActive(CurrentLoadingCamera, true);
+        SetCamCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
+        PointCamAtCoord(CurrentLoadingCamera, pCamSettings.x, pCamSettings.y, pCamSettings.z);
+        SetCamFov(CurrentLoadingCamera, 60);
+        SetCamRot(CurrentLoadingCamera, pCamSettings.rx, pCamSettings.ry, pCamSettings.rz, 2);
+        RenderScriptCams(true, false, 0);
+
+        console.log("camera created");
+
+        ApartmentLoadingScreenActive = true;
+    }
+}
+
+function StopApartmentLoadingScreen()
+{
+    SetCamActive(CurrentLoadingCamera, false);
+    DestroyCam(CurrentLoadingCamera, true);
+    RenderScriptCams(false, false, 500, true, true);
+
+    ApartmentLoadingScreenActive = false;
 }
 
 function ManageNui(property)
