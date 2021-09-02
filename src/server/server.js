@@ -40,6 +40,14 @@ var Properties =
         id: 2,
         extCoords: [-340.36, 626.12, 171.36],
         name: "Kimble Hill Residence",
+        cameraSettings: {
+            x: -321.12, 
+            y: 571.03, 
+            z: 176.41, 
+            rx: -10,
+            ry: 0, 
+            rz: -38
+        },
         garage:
         {
             hasGarage: true,
@@ -66,6 +74,15 @@ var Properties =
         id: 3,
         extCoords: [903.43, -615.8, 58.45],
         name: "West Mirror Estate",
+        cameraSettings: 
+        {
+            x: 930.61, 
+            y: -615.96, 
+            z: 62.06, 
+            rx: 0,
+            ry: 0, 
+            rz: -0
+        },
         garage:
         {
             hasGarage: true,
@@ -92,6 +109,15 @@ var Properties =
         id: 4,
         extCoords: [-1151.12, -913, 6.63],
         name: "Prosperity Apartment Complex",
+        cameraSettings: 
+        {
+            x: -1119.11, 
+            y: -937.41, 
+            z: 9.17, 
+            rx: 0,
+            ry: 0, 
+            rz: -0
+        },
         garage:
         {
             hasGarage: true,
@@ -132,6 +158,15 @@ var Properties =
         id: 5,
         extCoords: [-970.59, -1431.46, 7.68],
         name: "La Puerta Apartments",
+        cameraSettings: 
+        {
+            x: -1021.83, 
+            y: -1422.35, 
+            z: 14.27, 
+            rx: 0,
+            ry: 0, 
+            rz: -0
+        },
         garage:
         {
             hasGarage: true,
