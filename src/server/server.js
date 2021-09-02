@@ -1,4 +1,4 @@
-console.log("hi");
+console.log("hi hello");
 
 var Properties =
 [
